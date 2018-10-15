@@ -34,6 +34,6 @@ services:
     environment:
       SERVER_NAME: solr
       PROXY_PASS: http://solr662:8983
-      PROXY_REDIRECT: http://solr662/solr/ https://solr:8983/solr/
+      PROXY_REDIRECT: http://solr662/solr https://solr:8983/solr
     depends_on:
       - solr662

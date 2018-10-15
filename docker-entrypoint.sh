@@ -34,6 +34,24 @@ server {
         proxy_read_timeout ${PROXY_READ_TIMEOUT:-180s};
         proxy_send_timeout ${PROXY_SEND_TIMEOUT:-60s};
     }
+    
+    location = /solr {
+        client_body_buffer_size ${CLIENT_BODY_BUFFER_SIZE:-128k};
+        client_max_body_size ${CLIENT_MAX_BODY_SIZE:-16m};
+        proxy_set_header Host ${PROXY_HOST:-\$host};
+        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_set_header X-Forwarded-Port \$server_port;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_pass ${PROXY_PASS:-http://upstream}/solr/#/;
+        proxy_redirect ${PROXY_REDIRECT:-default};
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection \$connection_upgrade;
+        proxy_buffering ${PROXY_BUFFERING:-off};
+        proxy_connect_timeout ${PROXY_CONNECT_TIMEOUT:-60s};
+        proxy_read_timeout ${PROXY_READ_TIMEOUT:-180s};
+        proxy_send_timeout ${PROXY_SEND_TIMEOUT:-60s};
+    }
 }
 
 server {
